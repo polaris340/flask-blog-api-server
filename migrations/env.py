@@ -22,7 +22,7 @@ logger = logging.getLogger('alembic.env')
 from flask import current_app
 config.set_main_option('sqlalchemy.url',
                        current_app.config.get('SQLALCHEMY_DATABASE_URI'))
-binds = current_app.config.get('SQLACHEMY_BINDS')
+binds = current_app.config.get('SQLALCHEMY_BINDS')
 del binds['view']
 bind_names = []
 for name, url in current_app.config.get("SQLALCHEMY_BINDS").items():

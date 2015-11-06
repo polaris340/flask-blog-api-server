@@ -31,7 +31,7 @@ def downgrade(engine_name):
     binds = current_app.config.get('SQLALCHEMY_BINDS')
     if 'view' in binds:
         del binds['view']
-    db_names = [''] + list(bind.keys())
+    db_names = [''] + list(binds.keys())
 %>
 
 ## generate an "upgrade_<xyz>() / downgrade_<xyz>()" function
