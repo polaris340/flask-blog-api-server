@@ -1,29 +1,21 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+is_local = not os.environ.get('SECRET_KEY')
+DATABASE_URI = 'mysql+pymysql://root@localhost/blogdb'
+if not is_local:
+    # TODO: 서버 디비 설정
+    pass
+
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'df32tgi32(=vfT2G!'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'vb252@fh!fvvR63Anj9j0r9npRb5X8b4'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    DEBUG = is_local
+    SQLALCHEMY_DATABASE_URI = DATABASE_URI
+    SQLALCHEMY_BINDS = {
+        'view': SQLALCHEMY_DATABASE_URI
+    }
 
-    @staticmethod
-    def init_app(app):
-        pass
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = ''
-
-class TestingConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = ''
-
-class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = ''
-
-
-config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-    'default': DevelopmentConfig
-}
-
+    @classmethod
+    def init_app(cls, app):
+        app.config.from_object(cls)
